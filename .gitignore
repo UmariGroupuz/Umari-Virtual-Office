@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Build and test output
+dist/
+coverage/
+.vite/
+*.tsbuildinfo
+
+# Runtime data (SQLite office.db, office.db-wal, office.db-shm, ...); keep the folder
+data/*
+!data/.gitkeep
+
+# Local configuration (never commit real values; .env.example is committed)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*

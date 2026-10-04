@@ -1,0 +1,8 @@
+**/*.md
+docs/
+tasks/
+logs/
+package-lock.json
+**/dist/
+**/coverage/
+data/

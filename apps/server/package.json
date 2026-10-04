@@ -1,0 +1,31 @@
+{
+  "name": "@vo/server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI Virtual Office server: REST API, Socket.IO, SQLite (node:sqlite).",
+  "type": "module",
+  "scripts": {
+    "dev": "node ../../scripts/dev.mjs --only=server",
+    "start": "node --disable-warning=ExperimentalWarning --import tsx src/index.ts --serve-web",
+    "db:reset": "node --disable-warning=ExperimentalWarning --import tsx src/seed/reset.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@vo/shared": "*",
+    "cors": "^2.8.5",
+    "express": "^5.2.0",
+    "socket.io": "^4.8.0",
+    "tsx": "^4.23.0",
+    "zod": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "~24.19.0",
+    "@types/supertest": "^7.2.0",
+    "socket.io-client": "^4.8.0",
+    "supertest": "^7.3.0"
+  }
+}

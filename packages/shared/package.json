@@ -1,0 +1,21 @@
+{
+  "name": "@vo/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared domain contract: types, Zod schemas, state machines, constants, reference data (TS source, no build).",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "zod": "^4.6.0"
+  }
+}

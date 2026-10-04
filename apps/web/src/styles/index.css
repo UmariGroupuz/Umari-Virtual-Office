@@ -1,0 +1,339 @@
+/* AI Virtual Office — design tokens (UX §1). Hex values repeat @vo/shared palette.ts (CSS cannot import
+   TS); src/styles/palette.test.ts asserts they match (ADR-025). */
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+@theme {
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  /* 1.1 Surfaces, borders, text */
+  --color-bg: #0b0d10;
+  --color-bg-sunken: #0e1014;
+  --color-panel: #13161b;
+  --color-raised: #1a1e24;
+  --color-raised-hover: #222730;
+  --color-border-subtle: #262b33;
+  --color-border-strong: #3a414c;
+  --color-border-hover: #4a515d;
+  --color-text-primary: #e6e8eb;
+  --color-text-secondary: #a3aab5;
+  --color-text-muted: #8b939e;
+  --color-accent: #5b8def;
+  --color-accent-text: #8ab0ff;
+  --color-accent-strong: #3b6fd9;
+  --color-accent-strong-hover: #335fc0;
+  --color-accent-tint: #1a2230;
+  --color-room-floor: #15181d;
+
+  /* 1.2 Agent status colors + chip tints */
+  --color-st-idle: #9aa3ae;
+  --color-st-idle-tint: #292d33;
+  --color-st-planning: #4fb6e0;
+  --color-st-planning-tint: #1d303b;
+  --color-st-working: #3fb950;
+  --color-st-working-tint: #1a3023;
+  --color-st-waiting: #d9a13b;
+  --color-st-waiting-tint: #332c20;
+  --color-st-reviewing: #a98af5;
+  --color-st-reviewing-tint: #2b293e;
+  --color-st-completed: #4cc38a;
+  --color-st-completed-tint: #1c322d;
+  --color-st-failed: #f2645a;
+  --color-st-failed-tint: #372225;
+  --color-st-offline: #8a929d;
+  --color-st-offline-tint: #262a30;
+
+  /* Banner tints (UX §1.2) */
+  --color-banner-warning: #2f291f;
+  --color-banner-error: #322124;
+  --color-banner-success: #1c322d;
+
+  /* 1.3 Priority */
+  --color-prio-high: #e08a4f;
+
+  /* 1.4 Department colors + avatar backgrounds */
+  --color-dept-management: #7c8bc9;
+  --color-dept-management-bg: #30374c;
+  --color-dept-development: #5e9e94;
+  --color-dept-development-bg: #283c3d;
+  --color-dept-design: #b57f9f;
+  --color-dept-design-bg: #403340;
+  --color-dept-infrastructure: #8a9a5b;
+  --color-dept-infrastructure-bg: #343b2d;
+  --color-dept-quality: #b98b63;
+  --color-dept-quality-bg: #41372f;
+  --color-dept-ai-lab: #9583c9;
+  --color-dept-ai-lab-bg: #37354c;
+  --color-dept-documentation: #7f97a8;
+  --color-dept-documentation-bg: #313a42;
+  --color-dept-audit: #a39580;
+  --color-dept-audit-bg: #3b3a37;
+
+  /* 1.5 Typography (size / line height) */
+  --text-caption: 11px;
+  --text-caption--line-height: 16px;
+  --text-xs: 12px;
+  --text-xs--line-height: 16px;
+  --text-sm: 13px;
+  --text-sm--line-height: 20px;
+  --text-base: 14px;
+  --text-base--line-height: 20px;
+  --text-title-sm: 16px;
+  --text-title-sm--line-height: 24px;
+  --text-title: 18px;
+  --text-title--line-height: 26px;
+  --text-metric: 24px;
+  --text-metric--line-height: 28px;
+  --text-brand: 15px;
+  --text-brand--line-height: 20px;
+
+  /* 1.6 Radius, elevation, motion */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --shadow-overlay: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  --animate-shimmer: vo-shimmer 1.2s linear infinite;
+  --animate-spin-slow: spin 1s linear infinite;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --dur-fast: 120ms;
+    --dur-base: 180ms;
+    --dur-slow: 240ms;
+    --overlay-scrim: rgba(5, 6, 8, 0.55);
+  }
+
+  html,
+  body {
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'cv11';
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* UX §1.6: focus ring only for keyboard focus. */
+  :focus {
+    outline: none;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  select,
+  input {
+    color-scheme: dark;
+  }
+
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  [role='switch']:not(:disabled),
+  [role='tab'],
+  [role='option'],
+  summary {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* Native select styled per UX §12 (ChevronDown background icon, dark scheme). */
+  .vo-select {
+    appearance: none;
+    background-color: var(--color-bg-sunken);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23a3aab5' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 28px;
+  }
+
+  .vo-skeleton {
+    background-color: var(--color-raised);
+    background-image: linear-gradient(
+      90deg,
+      var(--color-raised) 0%,
+      var(--color-raised-hover) 50%,
+      var(--color-raised) 100%
+    );
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+    border-radius: var(--radius-sm);
+  }
+
+  .vo-tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vo-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .vo-clamp-6 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    overflow: hidden;
+  }
+
+  /* Live-change border flash (UX §4, §6): border-strong → subtle over 600 ms. */
+  .vo-flash-border {
+    animation: vo-flash-border 600ms var(--ease-standard);
+  }
+  /* Same effect under another animation name: alternating restarts the animation without a remount. */
+  .vo-flash-border-alt {
+    animation: vo-flash-border-alt 600ms var(--ease-standard);
+  }
+  /* Panel field value flash (UX §7.1): accent tint for 800 ms. */
+  .vo-flash-bg {
+    animation: vo-flash-bg 800ms var(--ease-standard);
+  }
+  .vo-flash-bg-alt {
+    animation: vo-flash-bg-alt 800ms var(--ease-standard);
+  }
+  /* New feed row (UX §8.4): accent tint fading over 1500 ms + 160 ms enter. */
+  .vo-row-new {
+    animation:
+      vo-row-tint 1500ms var(--ease-standard),
+      vo-row-enter 160ms var(--ease-standard);
+  }
+  .vo-pulse-dot {
+    animation: vo-pulse-dot 2s ease-in-out infinite;
+  }
+  .vo-panel-enter {
+    animation: vo-panel-enter 220ms var(--ease-standard);
+  }
+  .vo-sheet-enter {
+    animation: vo-sheet-enter 220ms var(--ease-standard);
+  }
+  .vo-fade-in {
+    animation: vo-fade-in var(--dur-base) var(--ease-standard);
+  }
+  /* Canvas hover tooltip appears after 250 ms (UX §5.6); hidden immediately on leave (unmounted). */
+  .vo-tooltip-delay {
+    opacity: 0;
+    animation: vo-appear 120ms 250ms forwards;
+  }
+
+  /* Backend unavailable: stale content (UX §11.3). */
+  .vo-stale {
+    opacity: 0.6;
+    filter: grayscale(0.6);
+  }
+
+  .vo-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+  }
+}
+
+@keyframes vo-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+@keyframes vo-flash-border {
+  from {
+    border-color: var(--color-border-strong);
+  }
+}
+@keyframes vo-flash-border-alt {
+  from {
+    border-color: var(--color-border-strong);
+  }
+}
+@keyframes vo-flash-bg {
+  from {
+    background-color: var(--color-accent-tint);
+  }
+}
+@keyframes vo-flash-bg-alt {
+  from {
+    background-color: var(--color-accent-tint);
+  }
+}
+@keyframes vo-row-tint {
+  from {
+    background-color: var(--color-accent-tint);
+  }
+}
+@keyframes vo-row-enter {
+  from {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+}
+@keyframes vo-pulse-dot {
+  50% {
+    opacity: 0.4;
+  }
+}
+@keyframes vo-panel-enter {
+  from {
+    transform: translateX(16px);
+    opacity: 0;
+  }
+}
+@keyframes vo-sheet-enter {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+}
+@keyframes vo-appear {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes vo-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* UX §1.6: reduced motion — no transforms, no shimmer, no rotation; opacity ≤ 120 ms. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+  .vo-skeleton {
+    animation: none;
+    background-image: none;
+  }
+  .vo-pulse-dot,
+  .animate-spin,
+  .animate-spin-slow,
+  .vo-flash-border,
+  .vo-flash-border-alt,
+  .vo-panel-enter,
+  .vo-sheet-enter,
+  .vo-fade-in {
+    animation: none !important;
+  }
+  .vo-row-new {
+    animation: vo-row-tint 1500ms steps(1, end);
+  }
+  .vo-flash-bg,
+  .vo-flash-bg-alt {
+    animation: none;
+  }
+}

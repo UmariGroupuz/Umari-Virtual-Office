@@ -1,0 +1,11 @@
+# Keep LF in the working tree on every OS (Prettier "endOfLine": "lf"; Git for Windows defaults to
+# core.autocrlf=true, which would otherwise check files out with CRLF and fail `npm run format:check`).
+* text=auto eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.db binary
